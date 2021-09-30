@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Blueprint
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup as soup
@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as soup
 #setting news_url to from where we are fetching news
 news_url = "https://news.google.com/news/rss"
 
-app = Flask(__name__)
+rss = Blueprint('rss', __name__)
 
 
 def get_news_from_google():
@@ -45,11 +45,7 @@ def get_news_from_google():
     #returnig the list
 
 
-@app.route('/')
+@rss.route('/')
 def index():
     news = get_news_from_google()
     return {'result': news}
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
